@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     NotificationManager manager;
     Context context;
     RemoteViews remoteViews;
+    Notification notification;
     final int NOTIFICATION_ID = 321;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +62,35 @@ public class MainActivity extends AppCompatActivity {
         remoteViews.setTextViewText(R.id.textView2, "下載中...");
         // builder.setCustomContentView(remoteViews);
         builder.setContent(remoteViews);
-        Notification notification = builder.build();
+        notification = builder.build();
         manager.notify(333, notification);
+        DownloadThread t = new DownloadThread();
+        t.start();
+    }
+
+    class DownloadThread extends Thread
+    {
+        int progress = 0;
+        int TotalProgress = 100;
+        @Override
+        public void run()
+        {
+            for (progress=0;progress<=TotalProgress;progress++)
+            {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        remoteViews.setProgressBar(R.id.progressBar, 100, progress, false);
+                        manager.notify(333, notification);
+                    }
+                });
+                try {
+                    Thread.sleep(5);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
     }
 }
