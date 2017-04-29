@@ -12,6 +12,7 @@ import android.view.View;
 public class MainActivity extends AppCompatActivity {
     NotificationManager manager;
     Context context;
+    final int NOTIFICATION_ID = 321;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,9 +31,11 @@ public class MainActivity extends AppCompatActivity {
                 .setContentTitle("Title")
                 .setContentText("內文")
                 .setContentIntent(pi)
-                .setAutoCancel(true);
-        manager.notify(1, builder.build());
-
-
+                .setAutoCancel(false);
+        manager.notify(NOTIFICATION_ID, builder.build());
+    }
+    public void click2(View v)
+    {
+        manager.cancel(NOTIFICATION_ID);
     }
 }
