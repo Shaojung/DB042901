@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     Context context;
     RemoteViews remoteViews;
     Notification notification;
+    NotificationCompat.Builder builder;
     final int NOTIFICATION_ID = 321;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     public void clickDownload(View v)
     {
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+        builder = new NotificationCompat.Builder(context);
         builder.setSmallIcon(R.mipmap.ic_launcher);
 
         remoteViews = new RemoteViews(getPackageName(), R.layout.notification);
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run()
         {
-            for (progress=0;progress<=TotalProgress;progress++)
+            for (progress=0;progress<=TotalProgress;progress+=10)
             {
                 runOnUiThread(new Runnable() {
                     @Override
@@ -85,11 +86,23 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 try {
-                    Thread.sleep(5);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
+
+            remoteViews.setTextViewText(R.id.text, " 下載完成 !");
+            // 變更訊息嵌板樣式（增加：Action 與 ContentTitle）
+            int requestCode = 1;
+            Intent intent = new Intent(context, DetailActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context,
+                    requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            builder.addAction(R.mipmap.ic_launcher, " 請開啟 ", pendingIntent);
+            builder.setContentTitle(" 下載完成 !");
+            notification = builder.build();
+            manager.notify(333, notification); // Update
+
 
         }
     }
