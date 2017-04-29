@@ -59,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
         remoteViews = new RemoteViews(getPackageName(), R.layout.notification);
         remoteViews.setImageViewResource(R.id.imageView, R.mipmap.ic_launcher);
         remoteViews.setTextViewText(R.id.textView2, "下載中...");
-        builder.setCustomContentView(remoteViews);
+        // builder.setCustomContentView(remoteViews);
+        builder.setContent(remoteViews);
         Notification notification = builder.build();
         manager.notify(333, notification);
     }
