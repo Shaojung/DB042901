@@ -10,10 +10,12 @@ import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RemoteViews;
 
 public class MainActivity extends AppCompatActivity {
     NotificationManager manager;
     Context context;
+    RemoteViews remoteViews;
     final int NOTIFICATION_ID = 321;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,5 +47,16 @@ public class MainActivity extends AppCompatActivity {
     public void click2(View v)
     {
         manager.cancel(NOTIFICATION_ID);
+    }
+
+    public void clickDownload(View v)
+    {
+        Notification.Builder builder = new Notification.Builder(context);
+        builder.setSmallIcon(R.mipmap.ic_launcher);
+        Notification notification = builder.build();
+        remoteViews = new RemoteViews(getPackageName(), R.layout.notification);
+        remoteViews.setTextViewText(R.id.textView2, "下載中...");
+        notification.contentView = remoteViews;
+        manager.notify(333, notification);
     }
 }
