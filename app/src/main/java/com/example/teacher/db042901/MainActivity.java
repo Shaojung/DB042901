@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.NotificationCompat;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -51,12 +52,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void clickDownload(View v)
     {
-        Notification.Builder builder = new Notification.Builder(context);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
         builder.setSmallIcon(R.mipmap.ic_launcher);
-        Notification notification = builder.build();
+
         remoteViews = new RemoteViews(getPackageName(), R.layout.notification);
+        remoteViews.setImageViewResource(R.id.imageView, R.mipmap.ic_launcher);
         remoteViews.setTextViewText(R.id.textView2, "下載中...");
-        notification.contentView = remoteViews;
+        builder.setCustomContentView(remoteViews);
+        Notification notification = builder.build();
         manager.notify(333, notification);
     }
 }
